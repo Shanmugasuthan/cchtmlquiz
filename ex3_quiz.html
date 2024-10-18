@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+<style>
+body {
+font-family: 'Arial', sans-serif;
+text-align: center;
+margin: 50px;
+background-color: #f5f5f5;
+}
+
+#quiz-container {
+max-width: 600px;
+margin: auto;
+background-color: #fff;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(1, 2, 1, 2);
+}
+
+#question-container {
+text-align: center;
+margin-bottom: 20px;
+}
+#options-container {
+margin-bottom: 20px;
+}
+
+#result-container {
+font-weight: bold;
+margin-bottom: 20px;
+}
+
+button {
+background-color: #007BFF;
+color: #fff;
+padding: 10px 20px;
+font-size: 16px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+margin: 5px;
+}
+
+button:hover {
+background-color: #0056b3;
+}
+</style>
+<title>ex 3 Quiz Application</title>
+</head>
+<body>
+
+<div id="quiz-container">
+<div id="question-container"></div>
+<div id="options-container"></div>
+<div id="result-container"></div>
+<button onclick="nextQuestion()">Next</button>
+<button onclick="showResult()">Submit</button>
+<button onclick="resetQuiz()">Restart Quiz</button>
+</div>
+
+<script>
+const quizData = [
+{
+ question: "Who found c language?",
+ options: ["Dennis ritchie", "Charles babbage", "Brain lara", "Marie curie"],
+ correctAnswer: "Dennis ritchie"
+},
+{
+question: "Which programming language is known for its association with artificial intelligence and machine learning?",
+options: ["Java", "Python", "C++", "JavaScript"],
+correctAnswer: "Python"
+},
+{
+question: "In computer networking, what does 'LAN' stand for?",
+options: ["Local Area Network", "Wide Area Network", "Limited Access Network", 	"Linear Access Network"],
+correctAnswer: "Local Area Network"
+},
+{
+question: "Who developed the Linux operating system kernel?",
+options: ["Linus Torvalds", "Richard Stallman", "Bill Gates", "Steve Wozniak"],
+correctAnswer: "Linus Torvalds"
+},
+{
+question: "Who is often referred to as the 'father of the World Wide Web'?",
+options: ["Bill Gates", "Tim Berners-Lee", "Mark Zuckerberg", "Steve Jobs"],
+correctAnswer: "Tim Berners-Lee"
+},
+{
+question: "What is the name of the programming language commonly used for creating dynamic web pages?",
+options: ["JavaScript", "Java", "C#", "Ruby"],
+correctAnswer: "JavaScript"
+}
+
+    
+  ];
+
+let currentQuestionIndex = 0;
+let userAnswers = [];
+let score = 0;
+
+function displayQuestion() {
+const questionContainer = document.getElementById("question-container");
+const optionsContainer = document.getElementById("options-container");
+const currentQuestion = quizData[currentQuestionIndex];
+
+questionContainer.innerHTML = `<p>${currentQuestion.question}</p>`;
+
+    optionsContainer.innerHTML = currentQuestion.options.map(option =>
+      `<input type="radio" name="answer" value="${option}" onclick="saveUserAnswer('${option}')">
+      <label>${option}</label><br>`
+    ).join('');
+  }
+
+function saveUserAnswer(answer) {
+userAnswers[currentQuestionIndex] = answer;
+  }
+
+function nextQuestion() {
+if (currentQuestionIndex < quizData.length - 1) {
+currentQuestionIndex++;
+displayQuestion();
+    }
+  }
+
+function showResult() {
+const resultContainer = document.getElementById("result-container");
+
+for (let i = 0; i < quizData.length; i++) {
+if (userAnswers[i] === quizData[i].correctAnswer) {
+score++;
+}
+}
+
+resultContainer.innerHTML = `Your final score is ${score} out of ${quizData.length}.`;
+}
+
+function resetQuiz() {
+currentQuestionIndex = 0;
+userAnswers = [];
+score = 0;
+displayQuestion();
+document.getElementById("result-container").innerHTML = "";
+  }
+
+// Initial display
+displayQuestion();
+</script>
+
+</body>
+</html>
